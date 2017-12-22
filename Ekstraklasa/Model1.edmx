@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EkstraklasaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Druzyna">
+          <Key>
+            <PropertyRef Name="Id_D" />
+          </Key>
+          <Property Name="Id_D" Type="int" Nullable="false" />
+          <Property Name="Trener" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Punkty" Type="int" Nullable="false" />
+          <Property Name="Nazwa" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Klient">
+          <Key>
+            <PropertyRef Name="Id_K" />
+          </Key>
+          <Property Name="Id_K" Type="int" Nullable="false" />
+          <Property Name="Login" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Haslo" Type="varchar" MaxLength="1024" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Mecz">
+          <Key>
+            <PropertyRef Name="Id_M" />
+          </Key>
+          <Property Name="Id_M" Type="int" Nullable="false" />
+          <Property Name="Odbyty" Type="tinyint" Nullable="false" />
+          <Property Name="Kiedy" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Punkty">
+          <Key>
+            <PropertyRef Name="Id_P" />
+          </Key>
+          <Property Name="Id_P" Type="int" Nullable="false" />
+          <Property Name="Id_D" Type="int" Nullable="false" />
+          <Property Name="Id_M" Type="int" Nullable="false" />
+          <Property Name="Punkty" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Relationship_2">
+          <Key>
+            <PropertyRef Name="Id_D" />
+            <PropertyRef Name="Id_M" />
+          </Key>
+          <Property Name="Id_D" Type="int" Nullable="false" />
+          <Property Name="Id_M" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Zawodnik">
+          <Key>
+            <PropertyRef Name="Id_Z" />
+          </Key>
+          <Property Name="Id_Z" Type="int" Nullable="false" />
+          <Property Name="Id_D" Type="int" />
+          <Property Name="KartkiZolte" Type="int" Nullable="false" />
+          <Property Name="KartkiCzerwone" Type="int" Nullable="false" />
+          <Property Name="Imie" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Nazwisko" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Pozycja" Type="varchar" MaxLength="1024" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_PUNKTY_RELATIONS_DRUZYNA">
+          <End Role="Druzyna" Type="Self.Druzyna" Multiplicity="1" />
+          <End Role="Punkty" Type="Self.Punkty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Druzyna">
+              <PropertyRef Name="Id_D" />
+            </Principal>
+            <Dependent Role="Punkty">
+              <PropertyRef Name="Id_D" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PUNKTY_RELATIONS_MECZ">
+          <End Role="Mecz" Type="Self.Mecz" Multiplicity="1" />
+          <End Role="Punkty" Type="Self.Punkty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mecz">
+              <PropertyRef Name="Id_M" />
+            </Principal>
+            <Dependent Role="Punkty">
+              <PropertyRef Name="Id_M" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RELATION_RELATIONS_DRUZYNA">
+          <End Role="Druzyna" Type="Self.Druzyna" Multiplicity="1" />
+          <End Role="Relationship_2" Type="Self.Relationship_2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Druzyna">
+              <PropertyRef Name="Id_D" />
+            </Principal>
+            <Dependent Role="Relationship_2">
+              <PropertyRef Name="Id_D" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RELATION_RELATIONS_MECZ">
+          <End Role="Mecz" Type="Self.Mecz" Multiplicity="1" />
+          <End Role="Relationship_2" Type="Self.Relationship_2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mecz">
+              <PropertyRef Name="Id_M" />
+            </Principal>
+            <Dependent Role="Relationship_2">
+              <PropertyRef Name="Id_M" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZAWODNIK_RELATIONS_DRUZYNA">
+          <End Role="Druzyna" Type="Self.Druzyna" Multiplicity="0..1" />
+          <End Role="Zawodnik" Type="Self.Zawodnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Druzyna">
+              <PropertyRef Name="Id_D" />
+            </Principal>
+            <Dependent Role="Zawodnik">
+              <PropertyRef Name="Id_D" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EkstraklasaModelStoreContainer">
+          <EntitySet Name="Druzyna" EntityType="Self.Druzyna" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Klient" EntityType="Self.Klient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mecz" EntityType="Self.Mecz" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Punkty" EntityType="Self.Punkty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Relationship_2" EntityType="Self.Relationship_2" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zawodnik" EntityType="Self.Zawodnik" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PUNKTY_RELATIONS_DRUZYNA" Association="Self.FK_PUNKTY_RELATIONS_DRUZYNA">
+            <End Role="Druzyna" EntitySet="Druzyna" />
+            <End Role="Punkty" EntitySet="Punkty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PUNKTY_RELATIONS_MECZ" Association="Self.FK_PUNKTY_RELATIONS_MECZ">
+            <End Role="Mecz" EntitySet="Mecz" />
+            <End Role="Punkty" EntitySet="Punkty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RELATION_RELATIONS_DRUZYNA" Association="Self.FK_RELATION_RELATIONS_DRUZYNA">
+            <End Role="Druzyna" EntitySet="Druzyna" />
+            <End Role="Relationship_2" EntitySet="Relationship_2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RELATION_RELATIONS_MECZ" Association="Self.FK_RELATION_RELATIONS_MECZ">
+            <End Role="Mecz" EntitySet="Mecz" />
+            <End Role="Relationship_2" EntitySet="Relationship_2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZAWODNIK_RELATIONS_DRUZYNA" Association="Self.FK_ZAWODNIK_RELATIONS_DRUZYNA">
+            <End Role="Druzyna" EntitySet="Druzyna" />
+            <End Role="Zawodnik" EntitySet="Zawodnik" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EkstraklasaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Druzyna">
+          <Key>
+            <PropertyRef Name="Id_D" />
+          </Key>
+          <Property Name="Id_D" Type="Int32" Nullable="false" />
+          <Property Name="Trener" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Punkty" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Punkty1" Relationship="Self.FK_PUNKTY_RELATIONS_DRUZYNA" FromRole="Druzyna" ToRole="Punkty" />
+          <NavigationProperty Name="Zawodnik" Relationship="Self.FK_ZAWODNIK_RELATIONS_DRUZYNA" FromRole="Druzyna" ToRole="Zawodnik" />
+          <NavigationProperty Name="Mecz" Relationship="Self.Relationship_2" FromRole="Druzyna" ToRole="Mecz" />
+          <Property Name="Nazwa" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Klient">
+          <Key>
+            <PropertyRef Name="Id_K" />
+          </Key>
+          <Property Name="Id_K" Type="Int32" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Haslo" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Mecz">
+          <Key>
+            <PropertyRef Name="Id_M" />
+          </Key>
+          <Property Name="Id_M" Type="Int32" Nullable="false" />
+          <Property Name="Odbyty" Type="Byte" Nullable="false" />
+          <Property Name="Kiedy" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Punkty" Relationship="Self.FK_PUNKTY_RELATIONS_MECZ" FromRole="Mecz" ToRole="Punkty" />
+          <NavigationProperty Name="Druzyna" Relationship="Self.Relationship_2" FromRole="Mecz" ToRole="Druzyna" />
+        </EntityType>
+        <EntityType Name="Punkty">
+          <Key>
+            <PropertyRef Name="Id_P" />
+          </Key>
+          <Property Name="Id_P" Type="Int32" Nullable="false" />
+          <Property Name="Id_D" Type="Int32" Nullable="false" />
+          <Property Name="Id_M" Type="Int32" Nullable="false" />
+          <Property Name="Punkty1" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Druzyna" Relationship="Self.FK_PUNKTY_RELATIONS_DRUZYNA" FromRole="Punkty" ToRole="Druzyna" />
+          <NavigationProperty Name="Mecz" Relationship="Self.FK_PUNKTY_RELATIONS_MECZ" FromRole="Punkty" ToRole="Mecz" />
+        </EntityType>
+        <EntityType Name="Zawodnik">
+          <Key>
+            <PropertyRef Name="Id_Z" />
+          </Key>
+          <Property Name="Id_Z" Type="Int32" Nullable="false" />
+          <Property Name="Id_D" Type="Int32" />
+          <Property Name="KartkiZolte" Type="Int32" Nullable="false" />
+          <Property Name="KartkiCzerwone" Type="Int32" Nullable="false" />
+          <Property Name="Imie" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nazwisko" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pozycja" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Druzyna" Relationship="Self.FK_ZAWODNIK_RELATIONS_DRUZYNA" FromRole="Zawodnik" ToRole="Druzyna" />
+        </EntityType>
+        <Association Name="FK_PUNKTY_RELATIONS_DRUZYNA">
+          <End Role="Druzyna" Type="Self.Druzyna" Multiplicity="1" />
+          <End Role="Punkty" Type="Self.Punkty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Druzyna">
+              <PropertyRef Name="Id_D" />
+            </Principal>
+            <Dependent Role="Punkty">
+              <PropertyRef Name="Id_D" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZAWODNIK_RELATIONS_DRUZYNA">
+          <End Role="Druzyna" Type="Self.Druzyna" Multiplicity="0..1" />
+          <End Role="Zawodnik" Type="Self.Zawodnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Druzyna">
+              <PropertyRef Name="Id_D" />
+            </Principal>
+            <Dependent Role="Zawodnik">
+              <PropertyRef Name="Id_D" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PUNKTY_RELATIONS_MECZ">
+          <End Role="Mecz" Type="Self.Mecz" Multiplicity="1" />
+          <End Role="Punkty" Type="Self.Punkty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mecz">
+              <PropertyRef Name="Id_M" />
+            </Principal>
+            <Dependent Role="Punkty">
+              <PropertyRef Name="Id_M" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Relationship_2">
+          <End Role="Druzyna" Type="Self.Druzyna" Multiplicity="*" />
+          <End Role="Mecz" Type="Self.Mecz" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="EkstraklasaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Druzyna" EntityType="Self.Druzyna" />
+          <EntitySet Name="Klient" EntityType="Self.Klient" />
+          <EntitySet Name="Mecz" EntityType="Self.Mecz" />
+          <EntitySet Name="Punkty" EntityType="Self.Punkty" />
+          <EntitySet Name="Zawodnik" EntityType="Self.Zawodnik" />
+          <AssociationSet Name="FK_PUNKTY_RELATIONS_DRUZYNA" Association="Self.FK_PUNKTY_RELATIONS_DRUZYNA">
+            <End Role="Druzyna" EntitySet="Druzyna" />
+            <End Role="Punkty" EntitySet="Punkty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZAWODNIK_RELATIONS_DRUZYNA" Association="Self.FK_ZAWODNIK_RELATIONS_DRUZYNA">
+            <End Role="Druzyna" EntitySet="Druzyna" />
+            <End Role="Zawodnik" EntitySet="Zawodnik" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PUNKTY_RELATIONS_MECZ" Association="Self.FK_PUNKTY_RELATIONS_MECZ">
+            <End Role="Mecz" EntitySet="Mecz" />
+            <End Role="Punkty" EntitySet="Punkty" />
+          </AssociationSet>
+          <AssociationSet Name="Relationship_2" Association="Self.Relationship_2">
+            <End Role="Druzyna" EntitySet="Druzyna" />
+            <End Role="Mecz" EntitySet="Mecz" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EkstraklasaModelStoreContainer" CdmEntityContainer="EkstraklasaEntities">
+          <EntitySetMapping Name="Druzyna">
+            <EntityTypeMapping TypeName="EkstraklasaModel.Druzyna">
+              <MappingFragment StoreEntitySet="Druzyna">
+                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+                <ScalarProperty Name="Id_D" ColumnName="Id_D" />
+                <ScalarProperty Name="Trener" ColumnName="Trener" />
+                <ScalarProperty Name="Punkty" ColumnName="Punkty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Klient">
+            <EntityTypeMapping TypeName="EkstraklasaModel.Klient">
+              <MappingFragment StoreEntitySet="Klient">
+                <ScalarProperty Name="Id_K" ColumnName="Id_K" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Haslo" ColumnName="Haslo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mecz">
+            <EntityTypeMapping TypeName="EkstraklasaModel.Mecz">
+              <MappingFragment StoreEntitySet="Mecz">
+                <ScalarProperty Name="Id_M" ColumnName="Id_M" />
+                <ScalarProperty Name="Odbyty" ColumnName="Odbyty" />
+                <ScalarProperty Name="Kiedy" ColumnName="Kiedy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Punkty">
+            <EntityTypeMapping TypeName="EkstraklasaModel.Punkty">
+              <MappingFragment StoreEntitySet="Punkty">
+                <ScalarProperty Name="Id_P" ColumnName="Id_P" />
+                <ScalarProperty Name="Id_D" ColumnName="Id_D" />
+                <ScalarProperty Name="Id_M" ColumnName="Id_M" />
+                <ScalarProperty Name="Punkty1" ColumnName="Punkty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zawodnik">
+            <EntityTypeMapping TypeName="EkstraklasaModel.Zawodnik">
+              <MappingFragment StoreEntitySet="Zawodnik">
+                <ScalarProperty Name="Id_Z" ColumnName="Id_Z" />
+                <ScalarProperty Name="Id_D" ColumnName="Id_D" />
+                <ScalarProperty Name="KartkiZolte" ColumnName="KartkiZolte" />
+                <ScalarProperty Name="KartkiCzerwone" ColumnName="KartkiCzerwone" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="Pozycja" ColumnName="Pozycja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Relationship_2" TypeName="EkstraklasaModel.Relationship_2" StoreEntitySet="Relationship_2">
+            <EndProperty Name="Druzyna">
+              <ScalarProperty Name="Id_D" ColumnName="Id_D" />
+            </EndProperty>
+            <EndProperty Name="Mecz">
+              <ScalarProperty Name="Id_M" ColumnName="Id_M" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
